@@ -81,6 +81,7 @@ function handleSubmitButton(event) {
   if (name.value === "" || title.value === "" || story.value === "") return;
   addDiscussion();
   clearInput(name, title, story);
+  initCurrentPage();
   clearDiscussions();
   render(ul, currentPage);
   setLocalStorage(agoraStatesDiscussions);
@@ -217,4 +218,12 @@ function getLocalStorage(keyName) {
 
 function isExistLocalStorage(keyName) {
   return Boolean(localStorage.getItem(keyName));
+}
+
+function initCurrentPage() {
+  const buttons = Array.from(document.querySelectorAll(".page-button"));
+
+  currentPage = 1;
+  removeClassList(buttons, "current-page");
+  addClassList(buttons[currentPage - 1], "current-page");
 }
