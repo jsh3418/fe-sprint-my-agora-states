@@ -1,6 +1,11 @@
 // 상태
 let currentPage = 1;
 
+// DOM
+const name = document.querySelector(".form__input--name input");
+const title = document.querySelector(".form__input--title input");
+const story = document.querySelector("#story");
+
 // convertToDiscussion은 아고라 스테이츠 데이터를 DOM으로 바꿔줍니다.
 const convertToDiscussion = (obj) => {
   const li = document.createElement("li"); // li 요소 생성
@@ -68,12 +73,12 @@ submitButton.addEventListener("click", handleSubmitButton);
 function handleSubmitButton(event) {
   event.preventDefault();
   addDiscussion();
+  clearInput(name, title, story);
+  clearDiscussions();
+  render(ul, currentPage);
 }
 
 function addDiscussion() {
-  const name = document.querySelector(".form__input--name input");
-  const title = document.querySelector(".form__input--title input");
-  const story = document.querySelector("#story");
   const time = new Date().toLocaleString();
 
   const newDiscussion = {
@@ -84,9 +89,6 @@ function addDiscussion() {
     avatarUrl: `http://placeimg.com/64/64/animals/grayscale`,
   };
   agoraStatesDiscussions.unshift(newDiscussion);
-
-  ul.prepend(convertToDiscussion(newDiscussion));
-  clearInput(name, title, story);
 }
 
 function clearInput(name, title, story) {
@@ -95,7 +97,7 @@ function clearInput(name, title, story) {
   story.value = "";
 }
 
-function pageRender() {
+function pageButtonRender() {
   const pageCount = calculatePageCount();
   renderPageButtons(pageCount);
   pageButtonsAddEventListener();
@@ -103,7 +105,7 @@ function pageRender() {
   nextButtonAddEventListener();
 }
 
-pageRender();
+pageButtonRender();
 
 function calculatePageCount() {
   const DISCUSSIONS_RENDER_PER_PAGE = 10;
