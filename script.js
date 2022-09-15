@@ -1,5 +1,5 @@
 // index.html을 열어서 agoraStatesDiscussions 배열 요소를 확인하세요.
-console.log(agoraStatesDiscussions);
+// console.log(agoraStatesDiscussions);
 
 // convertToDiscussion은 아고라 스테이츠 데이터를 DOM으로 바꿔줍니다.
 const convertToDiscussion = (obj) => {
@@ -36,7 +36,7 @@ const convertToDiscussion = (obj) => {
   // 디스커션의 information
   const div = document.createElement("div");
   div.className = "discussion__information";
-  div.textContent = `${obj.author} / ${obj.createdAt}`;
+  div.textContent = `${obj.author} / ${obj.createdAt.replaceAll("-", ".").replace("T", " ").replace("Z", " ")}`;
   discussionContent.append(div);
 
   // 디스커션의 답변 체크박스
@@ -60,3 +60,37 @@ const render = (element) => {
 // ul 요소에 agoraStatesDiscussions 배열의 모든 데이터를 화면에 렌더링합니다.
 const ul = document.querySelector("ul.discussions__container");
 render(ul);
+
+const submitButton = document.querySelector("#submit-button");
+
+submitButton.addEventListener("click", handleSubmitButton);
+
+function handleSubmitButton(event) {
+  event.preventDefault();
+  addDiscussion();
+}
+
+function addDiscussion() {
+  const name = document.querySelector(".form__input--name input");
+  const title = document.querySelector(".form__input--title input");
+  const story = document.querySelector("#story");
+  const time = new Date().toLocaleString();
+
+  const newDiscussion = {
+    author: name.value,
+    createdAt: time,
+    title: title.value,
+    story: story.value,
+    avatarUrl: `http://placeimg.com/64/64/animals/grayscale`,
+  };
+  agoraStatesDiscussions.unshift(newDiscussion);
+
+  ul.prepend(convertToDiscussion(newDiscussion));
+  clearInput(name, title, story);
+}
+
+function clearInput(name, title, story) {
+  name.value = "";
+  title.value = "";
+  story.value = "";
+}

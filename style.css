@@ -92,3 +92,11 @@ a:hover {
   flex-direction: column;
   padding: 10px 10px 25px 10px;
 }
+
+.form__textbox {
+  margin-top: 15px;
+}
+
+.discussion__information {
+  color: #8a939d;
+}
