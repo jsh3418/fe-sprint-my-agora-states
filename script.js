@@ -169,20 +169,26 @@ function nextButtonAddEventListener() {
 
 function handlePrevButton() {
   if (currentPage > 1) {
+    const buttons = Array.from(document.querySelectorAll(".page-button"));
+
     currentPage -= 1;
     clearDiscussions();
     render(ul, currentPage);
-    removeClassList();
-    addClassList();
+    removeClassList(buttons, "current-page");
+    addClassList(buttons[currentPage - 1], "current-page");
   }
 }
 
 function handleNextButton() {
   const pageCount = calculatePageCount();
   if (currentPage !== pageCount) {
+    const buttons = Array.from(document.querySelectorAll(".page-button"));
+
     currentPage += 1;
     clearDiscussions();
     render(ul, currentPage);
+    removeClassList(buttons, "current-page");
+    addClassList(buttons[currentPage - 1], "current-page");
   }
 }
 
