@@ -79,6 +79,7 @@ a:hover {
 .discussion__wrapper {
   border: 0.5px solid;
   border-radius: 10px;
+  width: 1000px;
 }
 
 .discussion__avatar--image {
