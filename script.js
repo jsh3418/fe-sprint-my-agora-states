@@ -14,6 +14,35 @@ const convertToDiscussion = (obj) => {
   discussionAnswered.className = "discussion__answered";
 
   // TODO: 객체 하나에 담긴 정보를 DOM에 적절히 넣어주세요.
+  // 아바타 이미지 요소 만들어 넣는 코드
+  const img = document.createElement("img");
+  img.className = "discussion__avatar--image";
+  img.src = `${obj.avatarUrl}`;
+  img.alt = "이미지를 불러오지 못했습니다.";
+
+  avatarWrapper.append(img);
+
+  // 디스커션 제목
+  const h2 = document.createElement("h2");
+  h2.className = "discussion__title";
+
+  // 디스커션 제목의 a태그
+  const a = document.createElement("a");
+  a.textContent = obj.title;
+  a.href = obj.url;
+  h2.append(a);
+  discussionContent.append(h2);
+
+  // 디스커션의 information
+  const div = document.createElement("div");
+  div.className = "discussion__information";
+  div.textContent = `${obj.author} / ${obj.createdAt}`;
+  discussionContent.append(div);
+
+  // 디스커션의 답변 체크박스
+  const p = document.createElement("p");
+  p.textContent = "☑";
+  discussionAnswered.append(p);
 
   li.append(avatarWrapper, discussionContent, discussionAnswered);
   return li;
@@ -24,6 +53,7 @@ const render = (element) => {
   for (let i = 0; i < agoraStatesDiscussions.length; i += 1) {
     element.append(convertToDiscussion(agoraStatesDiscussions[i]));
   }
+
   return;
 };
 
