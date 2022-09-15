@@ -72,6 +72,7 @@ submitButton.addEventListener("click", handleSubmitButton);
 
 function handleSubmitButton(event) {
   event.preventDefault();
+  if (name.value === "" || title.value === "" || story.value === "") return;
   addDiscussion();
   clearInput(name, title, story);
   clearDiscussions();
@@ -115,7 +116,7 @@ function calculatePageCount() {
 
 function renderPageButtons(count) {
   const nextButton = document.querySelector("#next-button");
-  for (let i = 1; i <= count; i++) {
+  for (let i = 2; i <= count; i++) {
     const button = document.createElement("button");
     button.className = "page-button";
     button.textContent = i;
@@ -132,9 +133,14 @@ function pageButtonsAddEventListener() {
 
 function handlePageButtons(event) {
   const pageNumber = event.target.textContent;
+  const buttons = Array.from(document.querySelectorAll(".page-button"));
+  const clickbutton = event.target;
+
   currentPage = pageNumber;
   clearDiscussions();
   render(ul, currentPage);
+  removeClassList(buttons, "current-page");
+  addClassList(clickbutton, "current-page");
 }
 
 function clearDiscussions() {
@@ -159,6 +165,8 @@ function handlePrevButton() {
     currentPage -= 1;
     clearDiscussions();
     render(ul, currentPage);
+    removeClassList();
+    addClassList();
   }
 }
 
@@ -169,4 +177,18 @@ function handleNextButton() {
     clearDiscussions();
     render(ul, currentPage);
   }
+}
+
+function addClassList(element, className) {
+  element.classList.add(className);
+}
+
+function removeClassList(element, className) {
+  if (Array.isArray(element)) {
+    element.forEach((element) => {
+      element.classList.remove(className);
+    });
+    return;
+  }
+  element.classList.remove(className);
 }
