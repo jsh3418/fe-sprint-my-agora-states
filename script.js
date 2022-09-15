@@ -1,5 +1,5 @@
-// index.html을 열어서 agoraStatesDiscussions 배열 요소를 확인하세요.
-// console.log(agoraStatesDiscussions);
+// 상태
+let currentPage = 1;
 
 // convertToDiscussion은 아고라 스테이츠 데이터를 DOM으로 바꿔줍니다.
 const convertToDiscussion = (obj) => {
@@ -49,8 +49,8 @@ const convertToDiscussion = (obj) => {
 };
 
 // agoraStatesDiscussions 배열의 모든 데이터를 화면에 렌더링하는 함수입니다.
-const render = (element) => {
-  for (let i = 0; i < agoraStatesDiscussions.length; i += 1) {
+const render = (element, currentPage) => {
+  for (let i = 0 + (currentPage - 1) * 10; i < currentPage * 10; i += 1) {
     element.append(convertToDiscussion(agoraStatesDiscussions[i]));
   }
 
@@ -59,7 +59,7 @@ const render = (element) => {
 
 // ul 요소에 agoraStatesDiscussions 배열의 모든 데이터를 화면에 렌더링합니다.
 const ul = document.querySelector("ul.discussions__container");
-render(ul);
+render(ul, currentPage);
 
 const submitButton = document.querySelector("#submit-button");
 
@@ -93,4 +93,49 @@ function clearInput(name, title, story) {
   name.value = "";
   title.value = "";
   story.value = "";
+}
+
+function pageRender() {
+  const pageCount = calculatePageCount();
+  renderPageButtons(pageCount);
+  pageButtonsAddEventListener();
+}
+
+pageRender();
+
+function calculatePageCount() {
+  const DISCUSSIONS_RENDER_PER_PAGE = 10;
+
+  return Math.ceil(agoraStatesDiscussions.length / DISCUSSIONS_RENDER_PER_PAGE);
+}
+
+function renderPageButtons(count) {
+  const pageButtonWrapper = document.querySelector("#page-button-wrapper");
+  for (let i = 1; i <= count; i++) {
+    const button = document.createElement("button");
+    button.className = "page-button";
+    button.textContent = i;
+    pageButtonWrapper.append(button);
+  }
+}
+
+function pageButtonsAddEventListener() {
+  const buttons = document.querySelectorAll(".page-button");
+  buttons.forEach((button) => {
+    button.addEventListener("click", handlePageButtons);
+  });
+}
+
+function handlePageButtons(event) {
+  const pageNumber = event.target.textContent;
+  currentPage = pageNumber;
+  clearDiscussions();
+  render(ul, currentPage);
+}
+
+function clearDiscussions() {
+  const discussionContainers = document.querySelectorAll(".discussion__container");
+  discussionContainers.forEach((element) => {
+    element.remove();
+  });
 }
