@@ -99,6 +99,8 @@ function pageRender() {
   const pageCount = calculatePageCount();
   renderPageButtons(pageCount);
   pageButtonsAddEventListener();
+  prevButtonAddEventListener();
+  nextButtonAddEventListener();
 }
 
 pageRender();
@@ -110,12 +112,12 @@ function calculatePageCount() {
 }
 
 function renderPageButtons(count) {
-  const pageButtonWrapper = document.querySelector("#page-button-wrapper");
+  const nextButton = document.querySelector("#next-button");
   for (let i = 1; i <= count; i++) {
     const button = document.createElement("button");
     button.className = "page-button";
     button.textContent = i;
-    pageButtonWrapper.append(button);
+    nextButton.before(button);
   }
 }
 
@@ -138,4 +140,31 @@ function clearDiscussions() {
   discussionContainers.forEach((element) => {
     element.remove();
   });
+}
+
+function prevButtonAddEventListener() {
+  const prevButton = document.querySelector("#prev-button");
+  prevButton.addEventListener("click", handlePrevButton);
+}
+
+function nextButtonAddEventListener() {
+  const nextButton = document.querySelector("#next-button");
+  nextButton.addEventListener("click", handleNextButton);
+}
+
+function handlePrevButton() {
+  if (currentPage > 1) {
+    currentPage -= 1;
+    clearDiscussions();
+    render(ul, currentPage);
+  }
+}
+
+function handleNextButton() {
+  const pageCount = calculatePageCount();
+  if (currentPage !== pageCount) {
+    currentPage += 1;
+    clearDiscussions();
+    render(ul, currentPage);
+  }
 }
