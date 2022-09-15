@@ -65,7 +65,9 @@ const render = (element, currentPage) => {
 };
 
 // ul 요소에 agoraStatesDiscussions 배열의 모든 데이터를 화면에 렌더링합니다.
+
 const ul = document.querySelector("ul.discussions__container");
+getLocalStorage("discussions");
 render(ul, currentPage);
 
 const submitButton = document.querySelector("#submit-button");
@@ -79,6 +81,7 @@ function handleSubmitButton(event) {
   clearInput(name, title, story);
   clearDiscussions();
   render(ul, currentPage);
+  setLocalStorage(agoraStatesDiscussions);
 }
 
 function addDiscussion() {
@@ -193,4 +196,14 @@ function removeClassList(element, className) {
     return;
   }
   element.classList.remove(className);
+}
+
+function setLocalStorage(data) {
+  localStorage.setItem("discussions", JSON.stringify(data));
+}
+
+function getLocalStorage(keyName) {
+  const discussions = JSON.parse(localStorage.getItem(keyName));
+  console.log(discussions);
+  agoraStatesDiscussions = discussions;
 }
