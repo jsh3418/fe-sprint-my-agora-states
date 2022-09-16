@@ -180,9 +180,6 @@ function addDiscussion() {
 function pageButtonRender() {
   const pageCount = calculatePageCount();
   renderPageButtons(pageCount);
-  pageButtonsAddEventListener();
-  prevButtonAddEventListener();
-  nextButtonAddEventListener();
 }
 
 function calculatePageCount() {
@@ -225,6 +222,9 @@ const initApp = () => {
   }
   render(ul, currentPage);
   pageButtonRender();
+  pageButtonsAddEventListener();
+  prevButtonAddEventListener();
+  nextButtonAddEventListener();
   form.addEventListener("submit", handleSubmitButton);
 };
 
