@@ -5,13 +5,115 @@ let currentPage = 1;
 const name = document.querySelector(".form__input--name input");
 const title = document.querySelector(".form__input--title input");
 const story = document.querySelector("#story");
+const ul = document.querySelector("ul.discussions__container");
+const form = document.querySelector(".form__container > form");
 
-// convertToDiscussion은 아고라 스테이츠 데이터를 DOM으로 바꿔줍니다.
+// 이벤트리스너
+function prevButtonAddEventListener() {
+  const prevButton = document.querySelector("#prev-button");
+  prevButton.addEventListener("click", handlePrevButton);
+}
+
+function nextButtonAddEventListener() {
+  const nextButton = document.querySelector("#next-button");
+  nextButton.addEventListener("click", handleNextButton);
+}
+
+function pageButtonsAddEventListener() {
+  const buttons = document.querySelectorAll(".page-button");
+  buttons.forEach((button) => {
+    button.addEventListener("click", handlePageButtons);
+  });
+}
+
+// 이벤트 핸들러 함수
+function handlePrevButton() {
+  if (currentPage > 1) {
+    const buttons = document.querySelectorAll(".page-button");
+
+    currentPage -= 1;
+    clearDiscussions();
+    render(ul, currentPage);
+    buttons.forEach((button) => {
+      removeClassList(button, "current-page");
+    });
+    addClassList(buttons[currentPage - 1], "current-page");
+  }
+}
+
+function handlePageButtons(event) {
+  const pageNumber = event.target.textContent;
+  const buttons = document.querySelectorAll(".page-button");
+  const clickbutton = event.target;
+
+  currentPage = Number(pageNumber);
+  clearDiscussions();
+  render(ul, currentPage);
+  buttons.forEach((button) => {
+    removeClassList(button, "current-page");
+  });
+  addClassList(clickbutton, "current-page");
+}
+
+function handleNextButton() {
+  const pageCount = calculatePageCount();
+  if (currentPage !== pageCount) {
+    const buttons = document.querySelectorAll(".page-button");
+
+    currentPage += 1;
+    clearDiscussions();
+    render(ul, currentPage);
+    buttons.forEach((button) => {
+      removeClassList(button, "current-page");
+    });
+    addClassList(buttons[currentPage - 1], "current-page");
+  }
+}
+
+function handleSubmitButton(event) {
+  event.preventDefault();
+  if (name.value === "" || title.value === "" || story.value === "") return;
+  addDiscussion();
+  clearInput(name, title, story);
+  initCurrentPage();
+  clearDiscussions();
+  render(ul, currentPage);
+  setLocalStorage(agoraStatesDiscussions);
+}
+
+// 유틸 함수
+function addClassList(element, className) {
+  element.classList.add(className);
+}
+
+function removeClassList(element, className) {
+  element.classList.remove(className);
+}
+
+function clearInput(...inputs) {
+  inputs.forEach((input) => {
+    input.value = "";
+  });
+}
+
+// 로컬스토리지 함수
+function setLocalStorage(data) {
+  localStorage.setItem("discussions", JSON.stringify(data));
+}
+
+function getLocalStorage(keyName) {
+  return JSON.parse(localStorage.getItem(keyName));
+}
+
+function isExistLocalStorage(keyName) {
+  return Boolean(localStorage.getItem(keyName));
+}
+
 const convertToDiscussion = (obj) => {
   if (obj === undefined) return "";
 
-  const li = document.createElement("li"); // li 요소 생성
-  li.className = "discussion__container"; // 클래스 이름 지정
+  const li = document.createElement("li");
+  li.className = "discussion__container";
 
   const avatarWrapper = document.createElement("div");
   avatarWrapper.className = "discussion__avatar--wrapper";
@@ -55,37 +157,11 @@ const convertToDiscussion = (obj) => {
   return li;
 };
 
-// agoraStatesDiscussions 배열의 모든 데이터를 화면에 렌더링하는 함수입니다.
 const render = (element, currentPage) => {
   for (let i = 0 + (currentPage - 1) * 10; i < currentPage * 10; i += 1) {
     element.append(convertToDiscussion(agoraStatesDiscussions[i]));
   }
-
-  return;
 };
-
-// ul 요소에 agoraStatesDiscussions 배열의 모든 데이터를 화면에 렌더링합니다.
-
-const ul = document.querySelector("ul.discussions__container");
-if (isExistLocalStorage("discussions")) {
-  getLocalStorage("discussions");
-}
-render(ul, currentPage);
-
-const form = document.querySelector(".form__container > form");
-
-form.addEventListener("submit", handleSubmitButton);
-
-function handleSubmitButton(event) {
-  event.preventDefault();
-  if (name.value === "" || title.value === "" || story.value === "") return;
-  addDiscussion();
-  clearInput(name, title, story);
-  initCurrentPage();
-  clearDiscussions();
-  render(ul, currentPage);
-  setLocalStorage(agoraStatesDiscussions);
-}
 
 function addDiscussion() {
   const time = new Date();
@@ -101,12 +177,6 @@ function addDiscussion() {
   agoraStatesDiscussions.unshift(newDiscussion);
 }
 
-function clearInput(name, title, story) {
-  name.value = "";
-  title.value = "";
-  story.value = "";
-}
-
 function pageButtonRender() {
   const pageCount = calculatePageCount();
   renderPageButtons(pageCount);
@@ -114,8 +184,6 @@ function pageButtonRender() {
   prevButtonAddEventListener();
   nextButtonAddEventListener();
 }
-
-pageButtonRender();
 
 function calculatePageCount() {
   const DISCUSSIONS_RENDER_PER_PAGE = 10;
@@ -133,25 +201,6 @@ function renderPageButtons(count) {
   }
 }
 
-function pageButtonsAddEventListener() {
-  const buttons = document.querySelectorAll(".page-button");
-  buttons.forEach((button) => {
-    button.addEventListener("click", handlePageButtons);
-  });
-}
-
-function handlePageButtons(event) {
-  const pageNumber = event.target.textContent;
-  const buttons = Array.from(document.querySelectorAll(".page-button"));
-  const clickbutton = event.target;
-
-  currentPage = Number(pageNumber);
-  clearDiscussions();
-  render(ul, currentPage);
-  removeClassList(buttons, "current-page");
-  addClassList(clickbutton, "current-page");
-}
-
 function clearDiscussions() {
   const discussionContainers = document.querySelectorAll(".discussion__container");
   discussionContainers.forEach((element) => {
@@ -159,72 +208,24 @@ function clearDiscussions() {
   });
 }
 
-function prevButtonAddEventListener() {
-  const prevButton = document.querySelector("#prev-button");
-  prevButton.addEventListener("click", handlePrevButton);
-}
-
-function nextButtonAddEventListener() {
-  const nextButton = document.querySelector("#next-button");
-  nextButton.addEventListener("click", handleNextButton);
-}
-
-function handlePrevButton() {
-  if (currentPage > 1) {
-    const buttons = Array.from(document.querySelectorAll(".page-button"));
-
-    currentPage -= 1;
-    clearDiscussions();
-    render(ul, currentPage);
-    removeClassList(buttons, "current-page");
-    addClassList(buttons[currentPage - 1], "current-page");
-  }
-}
-
-function handleNextButton() {
-  const pageCount = calculatePageCount();
-  if (currentPage !== pageCount) {
-    const buttons = Array.from(document.querySelectorAll(".page-button"));
-
-    currentPage += 1;
-    clearDiscussions();
-    render(ul, currentPage);
-    removeClassList(buttons, "current-page");
-    addClassList(buttons[currentPage - 1], "current-page");
-  }
-}
-
-function addClassList(element, className) {
-  element.classList.add(className);
-}
-
-function removeClassList(element, className) {
-  if (Array.isArray(element)) {
-    element.forEach((element) => {
-      element.classList.remove(className);
-    });
-    return;
-  }
-  element.classList.remove(className);
-}
-
-function setLocalStorage(data) {
-  localStorage.setItem("discussions", JSON.stringify(data));
-}
-
-function getLocalStorage(keyName) {
-  const discussions = JSON.parse(localStorage.getItem(keyName));
-  agoraStatesDiscussions = discussions;
-}
-
-function isExistLocalStorage(keyName) {
-  return Boolean(localStorage.getItem(keyName));
-}
-
 function initCurrentPage() {
-  const buttons = Array.from(document.querySelectorAll(".page-button"));
+  const buttons = document.querySelectorAll(".page-button");
 
   currentPage = 1;
-  removeClassList(buttons, "current-page");
+  buttons.forEach((button) => {
+    removeClassList(button, "current-page");
+  });
   addClassList(buttons[currentPage - 1], "current-page");
 }
+
+// 앱 시작
+const initApp = () => {
+  if (isExistLocalStorage("discussions")) {
+    agoraStatesDiscussions = getLocalStorage("discussions");
+  }
+  render(ul, currentPage);
+  pageButtonRender();
+  form.addEventListener("submit", handleSubmitButton);
+};
+
+initApp();
