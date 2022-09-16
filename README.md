@@ -59,7 +59,7 @@ Github Page 배포 링크를 아래 작성합니다.
 
 아래 예시를 지우고, 자신의 과제 시연 화면을 추가합니다.
 
-![image](/Users/jsh3418/Desktop/fe-sprint-my-agora-states/demo.gif)
+![image](https://github.com/jsh3418/fe-sprint-my-agora-states/blob/main/demo.gif?raw=true)
 
 ### 가장 자랑하고 싶은 기능
 
