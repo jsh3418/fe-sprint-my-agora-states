@@ -147,28 +147,24 @@ h1 {
 
 #page-button-wrapper {
   text-align: center;
+  height: 20px;
   margin-bottom: 20px;
 }
 
-#prev-button {
-  background: inherit;
-  border: none;
-  box-shadow: none;
-  color: #efefef;
-}
-
-#next-button {
-  background: inherit;
-  border: none;
-  box-shadow: none;
-  color: #efefef;
-}
-
+#prev-button,
+#next-button,
 .page-button {
   background: inherit;
   border: none;
   box-shadow: none;
   color: #efefef;
+}
+
+#prev-button:hover,
+#next-button:hover,
+.page-button:hover {
+  font-size: larger;
+  animation: rainbow 1.5s ease infinite;
 }
 
 .page-button.current-page {
