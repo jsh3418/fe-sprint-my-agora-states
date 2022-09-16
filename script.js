@@ -1,6 +1,9 @@
 // 상태
 let currentPage = 1;
 
+// 상수
+const DISCUSSIONS_RENDER_PER_PAGE = 10;
+
 // DOM
 const name = document.querySelector(".form__input--name input");
 const title = document.querySelector(".form__input--title input");
@@ -158,7 +161,7 @@ const convertToDiscussion = (obj) => {
 };
 
 const render = (element, currentPage) => {
-  for (let i = 0 + (currentPage - 1) * 10; i < currentPage * 10; i += 1) {
+  for (let i = 0 + (currentPage - 1) * DISCUSSIONS_RENDER_PER_PAGE; i < currentPage * DISCUSSIONS_RENDER_PER_PAGE; i += 1) {
     element.append(convertToDiscussion(agoraStatesDiscussions[i]));
   }
 };
@@ -183,8 +186,6 @@ function pageButtonRender() {
 }
 
 function calculatePageCount() {
-  const DISCUSSIONS_RENDER_PER_PAGE = 10;
-
   return Math.ceil(agoraStatesDiscussions.length / DISCUSSIONS_RENDER_PER_PAGE);
 }
 
