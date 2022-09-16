@@ -26,9 +26,9 @@ Github Page 배포 링크를 아래 작성합니다.
   - [x] `agoraStatesDiscussions` 배열에 추가한 데이터가 실제 쌓여야 합니다.
 - [x] Github Page 배포
   - [x] Github Page 배포 기능을 이용하여 누구나 볼 수 있게 배포합니다.
-- [ ] [코드스테이츠 fe-sprint-my-agora-states 리포지토리](https://github.com/codestates-seb/fe-sprint-my-agora-states)로 Pull Request
-  - [ ] 나만의 아고라 스테이츠를 코드스테이츠 깃허브에 Pull request합니다.
-  - [ ] 주어진 Pull request 형식에 따라주세요.
+- [x] [코드스테이츠 fe-sprint-my-agora-states 리포지토리](https://github.com/codestates-seb/fe-sprint-my-agora-states)로 Pull Request
+  - [x] 나만의 아고라 스테이츠를 코드스테이츠 깃허브에 Pull request합니다.
+  - [x] 주어진 Pull request 형식에 따라주세요.
 
 ## Advanced Challenge Self Checklist
 
@@ -57,7 +57,7 @@ Github Page 배포 링크를 아래 작성합니다.
 
 아래 예시를 지우고, 자신의 과제 시연 화면을 추가합니다.
 
-![image](https://s3.ap-northeast-2.amazonaws.com/urclass-images/NB0JkuHQnLg8X1woSRS84-1652915757557.gif)
+![image](/Users/jsh3418/Desktop/fe-sprint-my-agora-states/demo.gif)
 
 ### 가장 자랑하고 싶은 기능
 
