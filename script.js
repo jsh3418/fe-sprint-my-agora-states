@@ -145,7 +145,7 @@ function handlePageButtons(event) {
   const buttons = Array.from(document.querySelectorAll(".page-button"));
   const clickbutton = event.target;
 
-  currentPage = pageNumber;
+  currentPage = Number(pageNumber);
   clearDiscussions();
   render(ul, currentPage);
   removeClassList(buttons, "current-page");
