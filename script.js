@@ -72,9 +72,9 @@ if (isExistLocalStorage("discussions")) {
 }
 render(ul, currentPage);
 
-const submitButton = document.querySelector("#submit-button");
+const form = document.querySelector(".form__container > form");
 
-submitButton.addEventListener("click", handleSubmitButton);
+form.addEventListener("submit", handleSubmitButton);
 
 function handleSubmitButton(event) {
   event.preventDefault();
