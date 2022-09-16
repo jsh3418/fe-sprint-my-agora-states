@@ -43,7 +43,7 @@ const convertToDiscussion = (obj) => {
   // 디스커션의 information
   const div = document.createElement("div");
   div.className = "discussion__information";
-  div.textContent = `${obj.author} / ${obj.createdAt.replaceAll("-", ".").replace("T", " ").replace("Z", " ")}`;
+  div.textContent = `${obj.author} / ${new Date(obj.createdAt).toLocaleString()}`;
   discussionContent.append(div);
 
   // 디스커션의 답변 체크박스
@@ -88,7 +88,7 @@ function handleSubmitButton(event) {
 }
 
 function addDiscussion() {
-  const time = new Date().toLocaleString();
+  const time = new Date();
 
   const newDiscussion = {
     author: name.value,
@@ -97,6 +97,7 @@ function addDiscussion() {
     story: story.value,
     avatarUrl: `http://placeimg.com/64/64/animals/grayscale`,
   };
+
   agoraStatesDiscussions.unshift(newDiscussion);
 }
 
