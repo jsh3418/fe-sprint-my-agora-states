@@ -1,4 +1,4 @@
-function FormContainer() {
+function Form() {
   return (
     <section className="form__container">
       <form action="" method="get" className="form">
@@ -24,4 +24,4 @@ function FormContainer() {
   );
 }
 
-export default FormContainer;
+export default Form;
