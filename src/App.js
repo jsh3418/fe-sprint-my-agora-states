@@ -1,6 +1,6 @@
 import "./App.css";
-import Discussions from "./conponents/Discussions";
-import FormContainer from "./conponents/FormContainer";
+import Discussions from "./components/Discussions";
+import FormContainer from "./components/FormContainer";
 
 function App() {
   return (
