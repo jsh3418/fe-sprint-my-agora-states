@@ -1,3 +1,10 @@
+// fetch 이용하여 server의 데이터를 받아옴
+let agoraStatesDiscussions;
+const fetchData = async () => {
+  const fetchData = await fetch("http://localhost:4000/discussions");
+  return await fetchData.json();
+};
+
 // 상태
 let currentPage = 1;
 
@@ -81,7 +88,7 @@ function handleSubmitButton(event) {
   initCurrentPage();
   clearDiscussions();
   render(ul, currentPage);
-  setLocalStorage(agoraStatesDiscussions);
+  // setLocalStorage(agoraStatesDiscussions);
 }
 
 // 유틸 함수
@@ -217,10 +224,11 @@ function initCurrentPage() {
 }
 
 // 앱 시작
-const initApp = () => {
-  if (isExistLocalStorage("discussions")) {
-    agoraStatesDiscussions = getLocalStorage("discussions");
-  }
+const initApp = async () => {
+  // if (isExistLocalStorage("discussions")) {
+  //   agoraStatesDiscussions = getLocalStorage("discussions");
+  // }
+  agoraStatesDiscussions = await fetchData();
   render(ul, currentPage);
   pageButtonRender();
   pageButtonsAddEventListener();
